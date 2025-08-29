@@ -197,20 +197,32 @@ def log_values(payload: HIDGIn, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to log values: {str(e)}")
 @app.get("/health")
-def health_check(db: Session = Depends(get_db)):
+def health_check():
+    return {
+        "status": "healthy",
+        "version": "1.0.0",
+        "message": "API is running",
+        "endpoints": ["/generate", "/evaluate", "/iterate", "/reports/{id}", "/log-values", "/hidg-logs", "/hidg-analytics"]
+    }
+
+@app.get("/health/db")
+def health_check_with_db(db: Session = Depends(get_db)):
     try:
         # Test database connection
         db.execute("SELECT 1")
         db_status = "connected"
-    except Exception:
-        db_status = "disconnected"
+    except Exception as e:
+        db_status = f"disconnected: {str(e)}"
     
     return {
-        "status": "healthy" if db_status == "connected" else "degraded",
+        "status": "healthy" if "connected" in db_status else "degraded",
         "version": "1.0.0",
-        "database": db_status,
-        "endpoints": ["/generate", "/evaluate", "/iterate", "/reports/{id}", "/log-values", "/hidg-logs", "/hidg-analytics"]
+        "database": db_status
     }
+
+@app.get("/")
+def root():
+    return {"message": "Prompt → JSON Agent Backend", "docs": "/docs", "health": "/health"}
 
 @app.get("/hidg-logs")
 def get_hidg_logs(limit: int = 30, db: Session = Depends(get_db)) -> dict:

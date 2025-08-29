@@ -169,7 +169,7 @@ origins = ["https://yourapp.com"] if not settings.DEBUG else ["*"]
 
 ### Team Integration:
 - **Rishabh (Frontend)**: Use `demo.html` as reference, API fully documented
-- **Nisarg (BHIV Core)**: All agents ready with `run()` interface, see `bhiv_integration.md`
+- **Nisarg (BHIV Core)**: All agents ready with `run()` interface for orchestration
 - **Nipun (BHIV Bucket)**: Enhanced analytics at `/hidg-analytics`, logs at `/hidg-logs`
 
 ### Daily HIDG Logging:
