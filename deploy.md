@@ -40,7 +40,8 @@
 - **Live API**: Test orchestration at https://prompt-to-json-agent-backend-1.onrender.com
 
 ### For Nipun (BHIV Bucket) ✅ READY
-- **Database**: SQLite in production, models in `app/models.py`
+- **Database**: Supabase Postgres (production), models in `app/models.py`
 - **CRUD**: Operations in `app/crud.py`
 - **HIDG Logs**: `GET /hidg-logs`, `POST /log-values`
 - **Live Endpoint**: https://prompt-to-json-agent-backend-1.onrender.com/hidg-logs
+- **Setup Guide**: See `SUPABASE_SETUP.md` for production database
