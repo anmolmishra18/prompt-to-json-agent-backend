@@ -44,12 +44,7 @@ async def validation_exception_handler(request: Request, exc: ValueError):
     )
 
 # CORS configuration
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000", 
-    "http://localhost:8080",
-    "https://your-frontend-domain.com",  # Update with actual frontend URL
-] if not settings.DEBUG else ["*"]
+origins = ["*"]  # Allow all origins for demo
 
 app.add_middleware(
     CORSMiddleware,
@@ -228,6 +223,43 @@ def root():
 def get_hidg_logs(limit: int = 30, db: Session = Depends(get_db)) -> dict:
     if limit < 1 or limit > 100:
         raise HTTPException(status_code=400, detail="Limit must be between 1 and 100")
+    
+    logs = db.query(models.HIDGValue).order_by(models.HIDGValue.created_at.desc()).limit(limit).all()
+    total_count = db.query(models.HIDGValue).count()
+    
+    return {
+        "logs": [{"id": str(log.id), "honesty": log.honesty, "integrity": log.integrity, 
+                 "discipline": log.discipline, "gratitude": log.gratitude, 
+                 "created_at": log.created_at.isoformat()} for log in logs],
+        "total_count": total_count,
+        "showing": len(logs)
+    }
+
+@app.get("/hidg-analytics")
+def get_hidg_analytics(db: Session = Depends(get_db)) -> dict:
+    """Get analytics on HIDG values for meaningful insights"""
+    logs = db.query(models.HIDGValue).order_by(models.HIDGValue.created_at.desc()).limit(100).all()
+    if not logs:
+        return {"message": "No HIDG logs found", "analytics": {}}
+    
+    # Simple analytics
+    avg_lengths = {
+        "honesty": sum(len(log.honesty) for log in logs) / len(logs),
+        "integrity": sum(len(log.integrity) for log in logs) / len(logs),
+        "discipline": sum(len(log.discipline) for log in logs) / len(logs),
+        "gratitude": sum(len(log.gratitude) for log in logs) / len(logs)
+    }
+    
+    return {
+        "total_entries": len(logs),
+        "latest_entry": logs[0].created_at.isoformat() if logs else None,
+        "average_reflection_length": avg_lengths,
+        "consistency_score": min(len(logs) / 30, 1.0),  # Based on daily logging
+        "sample_recent": {
+            "honesty": logs[0].honesty[:100] + "..." if len(logs[0].honesty) > 100 else logs[0].honesty,
+            "gratitude": logs[0].gratitude[:100] + "..." if len(logs[0].gratitude) > 100 else logs[0].gratitude
+        } if logs else {}
+    }400, detail="Limit must be between 1 and 100")
     
     logs = db.query(models.HIDGValue).order_by(models.HIDGValue.created_at.desc()).limit(limit).all()
     total_count = db.query(models.HIDGValue).count()

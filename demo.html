@@ -64,25 +64,54 @@
     </div>
 
     <script>
+        // Try production first, fallback to local
         const API_BASE = 'https://prompt-to-json-agent-backend-1.onrender.com';
         let lastReportId = null;
+        
+        // Test connection on load
+        async function testConnection() {
+            try {
+                const response = await fetch(`${API_BASE}/health`, { mode: 'cors' });
+                if (response.ok) {
+                    console.log('✅ Connected to production API');
+                    return true;
+                }
+            } catch (error) {
+                console.log('❌ Production API not accessible:', error.message);
+            }
+            return false;
+        }
 
         async function apiCall(endpoint, method = 'GET', body = null) {
             try {
                 const options = {
                     method,
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors'
                 };
                 if (body) options.body = JSON.stringify(body);
                 
+                console.log(`Making ${method} request to ${API_BASE}${endpoint}`);
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
-                const data = await response.json();
                 
                 if (!response.ok) {
-                    throw new Error(data.detail || 'API Error');
+                    const errorText = await response.text();
+                    let errorData;
+                    try {
+                        errorData = JSON.parse(errorText);
+                    } catch {
+                        errorData = { detail: errorText };
+                    }
+                    throw new Error(errorData.detail || `HTTP ${response.status}`);
                 }
+                
+                const data = await response.json();
                 return { success: true, data };
             } catch (error) {
+                console.error('API call failed:', error);
                 return { success: false, error: error.message };
             }
         }
@@ -213,7 +242,10 @@
         }
 
         // Auto-check health on load
-        window.onload = () => checkHealth();
+        window.onload = async () => {
+            await testConnection();
+            checkHealth();
+        };
     </script>
 </body>
 </html>
