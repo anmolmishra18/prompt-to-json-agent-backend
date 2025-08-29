@@ -152,26 +152,22 @@ origins = ["https://yourapp.com"] if not settings.DEBUG else ["*"]
 
 ## 5) Live Demo & Integration
 
-**🚀 DEPLOYMENT STATUS**: Ready for production deployment
+**🚀 DEPLOYMENT STATUS**: ✅ LIVE AND RUNNING
 
-### Quick Deploy to Render:
-1. Fork this repo
-2. Create Render account → New Web Service
-3. Connect repo, set env vars:
-   ```
-   DATABASE_URL=postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres?sslmode=require
-   DEBUG=false
-   ```
-4. Deploy → Get live URL
+### 🌐 Live Backend
+- **API Base**: https://prompt-to-json-agent-backend-1.onrender.com
+- **Interactive Docs**: https://prompt-to-json-agent-backend-1.onrender.com/docs
+- **Health Check**: https://prompt-to-json-agent-backend-1.onrender.com/health
 
 ### Team Integration:
-- **Rishabh (Frontend)**: Use `/docs` for API reference, all endpoints ready
-- **Nisarg (BHIV Core)**: See `bhiv_integration.md` for agent orchestration
-- **Nipun (BHIV Bucket)**: Database schema ready, HIDG logs at `/hidg-logs`
+- **Rishabh (Frontend)**: Base URL `https://prompt-to-json-agent-backend-1.onrender.com`, docs at `/docs`
+- **Nisarg (BHIV Core)**: All agents ready with `run()` interface, see `bhiv_integration.md`
+- **Nipun (BHIV Bucket)**: Database live, HIDG logs at `/hidg-logs`
 
 ### Daily HIDG Logging:
 ```bash
-curl -X POST [YOUR_URL]/log-values -H "Content-Type: application/json" \
+curl -X POST https://prompt-to-json-agent-backend-1.onrender.com/log-values \
+  -H "Content-Type: application/json" \
   -d '{"honesty":"what worked/broke today","integrity":"real results recorded","discipline":"completed tasks","gratitude":"thanks to team"}'
 ```
 
