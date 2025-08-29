@@ -198,7 +198,7 @@ const result = await response.json();</div>
   // Handle specific error types: ValidationError, DatabaseError, etc.
 }</div>
 
-                    <h4>Available Endpoints:</h4>
+                    <h4>Available Endpoints (All 10):</h4>
                     <ul style="margin: 15px 0; padding-left: 20px;">
                         <li><code>POST /generate</code> - Convert prompt to JSON spec</li>
                         <li><code>POST /evaluate</code> - Evaluate JSON spec quality</li>
@@ -208,6 +208,8 @@ const result = await response.json();</div>
                         <li><code>GET /hidg-logs</code> - View HIDG logs</li>
                         <li><code>GET /hidg-analytics</code> - HIDG insights</li>
                         <li><code>GET /health</code> - API health check</li>
+                        <li><code>GET /health/db</code> - Database health check</li>
+                        <li><code>GET /</code> - Root endpoint</li>
                     </ul>
                 </div>
 
@@ -215,7 +217,9 @@ const result = await response.json();</div>
                     <h3>🔧 Quick API Tests</h3>
                     <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
                         <button class="btn btn-secondary" onclick="testHealthCheck()">Health Check</button>
-                        <button class="btn btn-secondary" onclick="testHIDGLogs()">View HIDG Logs</button>
+                        <button class="btn btn-secondary" onclick="testHealthDB()">Health/DB</button>
+                        <button class="btn btn-secondary" onclick="testRoot()">Root</button>
+                        <button class="btn btn-secondary" onclick="testHIDGLogs()">HIDG Logs</button>
                         <button class="btn btn-secondary" onclick="testHIDGAnalytics()">HIDG Analytics</button>
                         <button class="btn btn-secondary" onclick="testErrorHandling()">Test Errors</button>
                     </div>
@@ -460,7 +464,17 @@ const result = await response.json();</div>
         }
 
         async function testHealthCheck() {
+            const result = await apiCall('/health');
+            showResult('quick-test-result', result.success ? result.data : (result.data || result.error), !result.success);
+        }
+
+        async function testHealthDB() {
             const result = await apiCall('/health/db');
+            showResult('quick-test-result', result.success ? result.data : (result.data || result.error), !result.success);
+        }
+
+        async function testRoot() {
+            const result = await apiCall('/');
             showResult('quick-test-result', result.success ? result.data : (result.data || result.error), !result.success);
         }
 
