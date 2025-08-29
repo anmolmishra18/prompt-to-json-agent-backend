@@ -14,8 +14,11 @@ from .services.prompt_agent import PromptAgent
 from .services.evaluator import Evaluator
 from .services.rl_agent import RLAgent
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables (with error handling for deployment)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Database initialization warning: {e}")
 
 app = FastAPI(title=settings.APP_NAME)
 

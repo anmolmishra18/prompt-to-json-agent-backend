@@ -5,6 +5,6 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DATABASE_URL
-        value: postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres?sslmode=require
+        value: sqlite:///./app.db
       - key: DEBUG
         value: false
