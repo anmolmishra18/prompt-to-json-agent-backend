@@ -240,7 +240,7 @@ def health_check_with_db(db: Session = Depends(get_db)):
 def root():
     return {
         "message": "Prompt → JSON Agent Backend v1.1 - Enhanced RL & Analytics", 
-        "docs": "/docs", 
+        "docs": "https://prompt-to-json-agent-backend-1.onrender.com/docs", 
         "health": "/health",
         "demo": "Use demo.html for quick testing",
         "features": ["RL learning", "HIDG analytics", "Comprehensive validation"]

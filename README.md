@@ -20,7 +20,7 @@ python run.py
 python -m uvicorn app.main:app --reload
 ```
 
-Now open http://127.0.0.1:8000/docs
+Now open http://127.0.0.1:8000/docs (or https://prompt-to-json-agent-backend-1.onrender.com/docs for live version)
 
 ## 1) Docker (Postgres)
 
