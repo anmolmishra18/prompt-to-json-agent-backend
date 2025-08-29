@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: bhiv
+      POSTGRES_PASSWORD: bhivpass
+      POSTGRES_DB: bhiv_core
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://bhiv:bhivpass@db:5432/bhiv_core
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

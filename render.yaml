@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: prompt-json-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres?sslmode=require
+      - key: DEBUG
+        value: false
