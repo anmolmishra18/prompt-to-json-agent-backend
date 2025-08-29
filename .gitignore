@@ -32,6 +32,8 @@ env/
 
 # Environment Variables
 .env
+.env.local
+.env.production
 
 # IDE
 .vscode/
@@ -45,3 +47,15 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+
+# Internal docs (keep only essential ones)
+FINAL_VERIFICATION.md
+DEPLOYMENT_CHECKLIST.md
+LIVE_ENDPOINTS.md
+SPRINT_SUMMARY.md
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

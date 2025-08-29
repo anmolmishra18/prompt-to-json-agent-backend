@@ -158,11 +158,19 @@ origins = ["https://yourapp.com"] if not settings.DEBUG else ["*"]
 - **API Base**: https://prompt-to-json-agent-backend-1.onrender.com
 - **Interactive Docs**: https://prompt-to-json-agent-backend-1.onrender.com/docs
 - **Health Check**: https://prompt-to-json-agent-backend-1.onrender.com/health
+- **Demo UI**: Open `demo.html` in browser for quick testing
+
+### 🎯 Enhanced Features (v1.1)
+- **Comprehensive Error Handling**: Proper HTTP status codes and validation
+- **HIDG Analytics**: `/hidg-analytics` endpoint with meaningful insights
+- **Enhanced RL Learning**: Progressive improvement with genuine score increases
+- **Input Validation**: All endpoints validate input length and format
+- **Stress Testing**: Concurrent request handling verified
 
 ### Team Integration:
-- **Rishabh (Frontend)**: Base URL `https://prompt-to-json-agent-backend-1.onrender.com`, docs at `/docs`
+- **Rishabh (Frontend)**: Use `demo.html` as reference, API fully documented
 - **Nisarg (BHIV Core)**: All agents ready with `run()` interface, see `bhiv_integration.md`
-- **Nipun (BHIV Bucket)**: Database live, HIDG logs at `/hidg-logs`
+- **Nipun (BHIV Bucket)**: Enhanced analytics at `/hidg-analytics`, logs at `/hidg-logs`
 
 ### Daily HIDG Logging:
 ```bash
@@ -171,7 +179,19 @@ curl -X POST https://prompt-to-json-agent-backend-1.onrender.com/log-values \
   -d '{"honesty":"what worked/broke today","integrity":"real results recorded","discipline":"completed tasks","gratitude":"thanks to team"}'
 ```
 
+### Testing:
+```bash
+# Run comprehensive tests
+python test_api_comprehensive.py
+
+# Quick health check
+curl https://prompt-to-json-agent-backend-1.onrender.com/health
+```
+
 ## 6) Notes
 - Agents/classes expose a `run()` method for orchestration compatibility.
 - Replace SQLite with Postgres/Supabase by setting `DATABASE_URL` in `.env` or Compose.
 - This is a heuristic baseline; swap in real LLM/evaluator later.
+- **Security**: `.env` removed from repo - use `.env.example` as template.
+- **Error Handling**: All endpoints include comprehensive validation and error responses.
+- **Analytics**: HIDG values now include meaningful insights and consistency tracking.
